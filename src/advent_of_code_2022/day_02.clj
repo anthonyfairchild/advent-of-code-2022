@@ -12,24 +12,18 @@
 (def test-input (read-input "day_02_test_input.txt"))
 (def input (read-input "day_02.txt"))
 
-(defn turn1 [abc xyz]
-  (let [s {"X" 1
+(def abcs {"A" 1
+           "B" 2
+           "C" 3})
+
+(def xyzs {"X" 1
            "Y" 2
-           "Z" 3}]
-    (cond
-      ;; win
-      (or (and (= abc "A") (= xyz "Y"))
-          (and (= abc "B") (= xyz "Z"))
-          (and (= abc "C") (= xyz "X")))
-      (+ (s xyz) 6)
-      
-      ;; draw
-      (or (and (= abc "A") (= xyz "X"))
-          (and (= abc "B") (= xyz "Y"))
-          (and (= abc "C") (= xyz "Z")))
-      (+ (s xyz) 3)
-      
-      :else (s xyz))))
+           "Z" 3})
+
+(defn turn1 [abc xyz]
+  (let [res [3 0 6]]
+    (+ (xyzs xyz) 
+       (res (mod (- (abcs abc) (xyzs xyz)) 3)))))
 
 (defn solve1 [input]
   (->> input
@@ -42,31 +36,10 @@
 (solve1 input)
 ;; => 9241
 
-
 (defn turn2 [abc xyz]
-  (let [s {"X" 1
-           "Y" 2
-           "Z" 3}
-        win {"A" "Y"
-             "B" "Z"
-             "C" "X"}
-        draw {"A" "X"
-              "B" "Y"
-              "C" "Z"}
-        lose {"A" "Z"
-              "B" "X"
-              "C" "Y"}]
-    (cond
-      ;; win
-      (= xyz "Z")
-      (+ (s (win abc)) 6)
-      
-      ;; draw
-      (= xyz "Y")
-      (+ (s (draw abc)) 3)
-      
-      :else
-      (s (lose abc)))))
+  (let [res [0 3 6]]
+    (+ (inc (mod (+ (abcs abc) (xyzs xyz)) 3))
+       (res (dec (xyzs xyz))))))
 
 (defn solve2 [input]
   (->> input
