@@ -74,13 +74,7 @@
        (apply +)))
 
 (solve2 test-input)
-;; => 15
+;; => 12
 
 (solve2 input)
 ;; => 14610
-
-
-
-
-test-input
-input
